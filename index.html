@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <title>Les petits plats</title>
 </head>
 <body>
@@ -27,7 +30,88 @@
         </div>
     </header>
     <main>
-        
+        <div id="main_element">
+            <div id="filtres">
+                <div class="filtre">
+                    <div class="ingredients">
+                        <button class="btn_list" >
+                            <span id="current_filter">Ingrédients</span>
+                            <span class="icon rotate"><i class="fa-solid fa-chevron-up"></i></span>
+                        </button>
+                        <div class="liste_filtre">
+                            <div class="search_ingredient">
+                                <label for="ingredients"></label>
+                                <input type="search" id="ingredients" name="ingredients" required minlength="3" size="10" />
+                                <button id="search_ingredient" class="secondary_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                            <ul class="filtre_selectionne">
+                                ok
+                            </ul>
+                            <ul class="filtre_selectionnable">
+                                ok
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filte_out">
+
+                    </div>
+                </div>
+
+                <div class="filtre">
+                    <div class="appareils">
+                        <button class="btn_list" >
+                            <span id="current_filter">Appareils</span>
+                            <span class="icon rotate"><i class="fa-solid fa-chevron-up"></i></span>
+                        </button>
+                        <div class="liste_filtre">
+                            <div class="search_appareils">
+                                <label for="appareils"></label>
+                                <input type="search" id="appareils" name="appareils" required minlength="3" size="10" />
+                                <button id="search_appareils" class="secondary_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                            <ul class="filtre_selectionne">
+                                ok
+                            </ul>
+                            <ul class="filtre_selectionnable">
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filte_out">
+
+                    </div>
+                </div>
+
+                <div class="filtre">
+                    <div class="ustensiles">
+                        <button class="btn_list" >
+                            <span id="current_filter">Ustensiles</span>
+                            <span class="icon rotate"><i class="fa-solid fa-chevron-up"></i></span>
+                        </button>
+                        <div class="liste_filtre">
+                            <div class="search_ustensiles">
+                                <label for="ustensiles"></label>
+                                <input type="search" id="ustensiles" name="ustensiles" required minlength="3" size="10" />
+                                <button id="search_ustensiles" class="secondary_search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </div>
+                            <ul class="filtre_selectionne">
+                                ok
+                            </ul>
+                            <ul class="filtre_selectionnable">
+                                ok
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="filte_out">
+
+                    </div>
+                </div>
+            </div>
+            <div class="total_recettes">
+                <p></p>
+            </div>
+        </div>
+        <div id="recettes">
+        </div>
     </main>
     <script type="module" src="/scripts/index.js"></script>
 </body>
