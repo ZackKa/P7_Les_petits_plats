@@ -76,6 +76,7 @@ header{
     border: none;
     padding-right: 60px;
     padding-left: 10px;
+    font-size: 17px;
 }
 
 #recherche #principal_search {
@@ -95,20 +96,18 @@ header{
 
 main{
     background-color: #e5e5e5;
-    position: relative;
-    padding-bottom: 155px;
+    /* position: relative; */
+    /* padding-bottom: 155px; */
 }
 
 #main_element{
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    padding: 40px;
+    width: 100%;
     align-items: flex-start;
     justify-content: space-between;
-    padding: 40px;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
 }
 
 /* style filtres */
@@ -121,16 +120,21 @@ main{
     font-family: "Manrope", sans-serif;
 }
 
+.total_recettes{
+    margin-top: 10px;
+}
+
 .filtre{
     margin: 0 20px 0 0;
     border-radius: 10px;
     width: 14em;
+    position: relative;
 }
 
 .filtre .btn_list {
     width: 100%;
     border: none;
-    font-size: 25px;
+    font-size: 18px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -139,12 +143,71 @@ main{
     /* margin-bottom: 10px; */
     background-color: white;
     cursor: pointer;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .ingredients, .appareils, .ustensiles{
     background-color: white;
     border-radius: 10px;
+    /* padding: 20px; */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.filtre_out ul{
+    padding: 0 40px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.tag_actif{
+    background-color: #FFD15B;
+    border-radius: 10px;
     padding: 20px;
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    width: 17%;
+    align-items: center;
+}
+
+.tag_actif i{
+    cursor: pointer;
+}
+
+.in:hover{
+    font-weight: bold;
+}
+.in i{
+    display: none;
+    color: rgb(255, 209, 91);
+    background: black;
+    padding: 3px 5px;
+    border-radius: 50%;
+    font-size: 13px;
+}
+.in:hover i{
+    display: flex;
+}
+
+.in{
+    border-radius: 0;
+    padding: 10px 20px;
+    width: 100%;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.out{
+    margin-right: 18px;
 }
 
 .icon{
@@ -161,23 +224,53 @@ main{
     opacity: 0;
     max-height: 0;
     /* max-height: fit-content; */
-    transition: all .2s ease-in-out;
-    /* transition: max-height .1s .2s ease-in-out, opacity .1s .2s ease-in-out ; */
+    /* transition: all .2s ease-in-out; */
+    transition: max-height .2s ease-in-out, opacity .2s ease-in-out ;
 }
 
 .filtre_open{
     /* display: block; */
-    max-height: 290px;
+    max-height: 370px;
     /* max-height: max-content; */
     opacity: 1;
 }
 
+/* .liste_filtre ul{
+    margin: 0;
+    max-height: 0;
+    transition-delay: 2s;
+    transition: max-height .1s .2s ease-in-out;
+} */
+
 .liste_filtre ul{
     width: 100%;
-    margin: 20px 0 0;
+    margin: 20px 0 10px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    /* max-height: max-content; */
+    /* text-transform: capitalize; Première lettre majuscule */
 }
 
+.liste_filtre ul li::first-letter {
+    text-transform:capitalize;
+}
+
+/* .filtre_open ul{
+    width: 100%;
+    margin: 20px 0 0;
+    max-height: max-content;
+} */
+
 .liste_filtre input {
+    margin: 0;
+    /* max-height: 0; */
+    width: 0;
+    height: 0;
+    transition-delay: .2s;
+}
+
+/* .liste_filtre input {
     width: 100%;
     border: #e5e5e5 2px solid;
     height: 45px;
@@ -187,6 +280,17 @@ main{
     font-size: 23px;
     color: #adadad;
     margin: 20px 0 0;
+}  */
+.filtre_open input{
+    width: 100%;
+    border: #e5e5e5 2px solid;
+    height: 45px;
+    border-radius: 2px;
+    padding-right: 20px;
+    padding-left: 5px;
+    font-size: 18px;
+    color: #adadad;
+    /* margin: 20px 0 0; */
 }
 
 .search_ingredient, .search_appareils, .search_ustensiles {
@@ -203,13 +307,9 @@ main{
     color: #e5e5e5;
     /* margin: auto; */
     position: absolute;
-    right: 7px;
+    right: 26px;
     bottom: 15px;
     cursor: pointer;
-}
-
-.total_recettes{
-    margin-top: 27px;
 }
 
 .total_recettes p{
@@ -217,10 +317,48 @@ main{
     font-weight: 900;
 }
 
-.filtre_selectionnable{
+.search_tag{
+    display: none;
+    padding: 0 20px;
+}
+
+.filtre_selectionne{
+    display: none;
     list-style: none;
     overflow: auto;
-    height: 177px;
+    scrollbar-width: thin;
+    /* max-height: 74px; */
+    max-height: 136px;
+}
+
+.filtre_selectionnable{
+    display: none;
+    list-style: none;
+    overflow: auto;
+    scrollbar-width: thin;
+    /* height: 177px; */
+    max-height: 137px;
+    border-radius: 0 0 10px 10px;
+}
+
+.filtre_selectionnable ::-webkit-scrollbar {
+    width: 10px;
+    background-color: #666;
+}
+.filtre_selectionnable ::-webkit-scrollbar-thumb{
+    background-color: #fff;
+}
+
+.filtre_selectionnable li{
+    /* text-transform: capitalize; */
+    /* margin: 0px 0px; */
+    cursor: pointer;
+    display: flex;
+    padding: 5px 20px;
+}
+
+.filtre_selectionnable li:hover{
+    background-color: #FFD15B;
 }
 
 /* style recettes */
@@ -232,9 +370,17 @@ main{
     align-items: stretch;
     justify-content: space-between;
     padding: 40px;
-    position: relative;
+    /* position: relative;
     top: 150px;
-    left: 0px;
+    left: 0px; */
+}
+
+#recettes p{
+    font-size: 16px;
+}
+
+#recettes #recette_vide{
+    font-size: 26px;
 }
 
 article{

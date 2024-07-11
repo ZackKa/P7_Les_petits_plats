@@ -1,5 +1,5 @@
 export class RecetteModel {
-    // On initialise les données du photographe
+    // On initialise les données des recettes
     constructor(datas) {
         this.id=datas.id;
         this.image=datas.image;
@@ -10,13 +10,6 @@ export class RecetteModel {
         this.description=datas.description;
         this.appliance=datas.appliance;
         this.ustensils=datas.ustensils;
-        this.picture=`assets/Photos recettes/${this.image}`
+        this.picture=`assets/Photos_recettes/${this.image}`
     }
-    // getFirstName(){
-    //     // On divise le nom du photographe
-    //     let data=this.name.split(' ');
-    //     // On retourne le premier élément en remplaçant les tirets par des espaces
-    //     return  data[0].replace("-"," ");
-    // }
-    
 }

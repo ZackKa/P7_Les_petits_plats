@@ -1,5 +1,5 @@
 export class RecetteTemplate {
-    // On initialise la propriété photographeModel
+    // On initialise la propriété
     constructor(recetteModel) {
         this.recetteModel = recetteModel;
     }
@@ -55,13 +55,7 @@ export class RecetteTemplate {
         detailIngredients.classList.add("ingredients_detail")
         ingredients.appendChild(detailIngredients)
 
-        // const pIngredients = document.createElement('p')
-        // pIngredients.textContent = this.recetteModel.ingredients
-        // ingredients.appendChild(pIngredients)
-        // console.log("P I", this.recetteModel.ingredients[0])
-
         this.recetteModel.ingredients.forEach((data) => {
-            // console.log("data", data)
 
             const detailIngredientsContent = document.createElement('div')
             detailIngredientsContent.classList.add("ingredients_detail_content")
@@ -81,10 +75,7 @@ export class RecetteTemplate {
             }
             detailIngredientsContent.appendChild(pDetail)
         })
-        // console.log("P Ingredients", this.ingredients)
 
         return (article);
-
     }
-
 }

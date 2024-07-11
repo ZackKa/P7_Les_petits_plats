@@ -23,14 +23,15 @@ export class Search {
 
         this.app.haveFilter=true;
         return searchText;
-
     }
 
     applyFilter(searchText) {
         this.app.filteredRecipes= this.app.allRecipes.filter(recipe => 
-            recipe.name.toLowerCase().includes(searchText)
+            recipe.name.toLowerCase().includes(searchText) || 
+            recipe.appliance.toLowerCase().includes(searchText) || 
+            recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(searchText)) ||
+            recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(searchText))
         )
-        console.log(this.app.filteredRecipes)
-        this.app.displayRecipes();
+        this.app.displayRecipes(searchText);
     }
 }

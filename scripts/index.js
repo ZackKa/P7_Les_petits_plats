@@ -1,53 +1,59 @@
 import { RecettesApi } from "./Api/RecettesApi.js"
-
 import { RecipesTemplate } from "./Templates/RecipesTemplate.js";
-import { Filter } from "./Utils/Filter.js";
+import { Filters } from "./Utils/Filters.js";
 import { Search } from "./Utils/Search.js";
+
 class App {
     //Le constructeur initialise la classe en créant une instance de RecettesApi
     constructor() {
         this.recettesApi=new RecettesApi("data/reciepes.json");
-        console.log("api", this.recettesApi)
-
 
         this.allRecipes=null;
         this.filteredRecipes=null;
         this.haveFilter=false;
+        
+
+        this.datasSelectedAppareils = [];
+        this.datasSelectedIngredients = [];
+        this.datasSelectedUstensiles = [];
     }
 
-
-
     async init(){
-
         await this.getAllRecipes();
-
-        // Test Début
-       // this.ingredients=await this.recettesApi.getOne(1);
-       // console.log("ingredients", this.ingredients)
-        // Test Fin
         this.displayRecipes()
 
         let search=new Search(this);
         search.init();
-
-        this.openTags()
-
-       let filter = new Filter(this);
-       filter.render();
+        
+        let filters = new Filters(this);
+        filters.init();
     }
 
     async getAllRecipes() {
         this.allRecipes=await this.recettesApi.getAll();
     }
 
-    displayRecipes(){
+    displayRecipes(searchText){
         let recipesTemplate;
-        console.log('displayRecipes')
-        console.log(this.haveFilter)
+        // console.log('displayRecipes')
+        // console.log("have filtre",this.haveFilter)
         if(this.haveFilter==true) {
-            if (this.filteredRecipes==null) {
-                //affichage d'un message à l'utilisateur
-                console.log('pas de résultat')
+            if (this.filteredRecipes.length <= 0) {
+                let divRecette = document.getElementById("recettes")
+                divRecette.textContent=""
+                let message = document.createElement("p")
+                message.id="recette_vide"
+                if(searchText){
+                    message.textContent="Aucune recette ne contient \"" + searchText + "\" vous pouvez chercher \"tarte aux pommes\" \"poisson \" etc."
+                    // recipeTemplate met à jour l'affichage du total de recettes
+                    recipesTemplate =new RecipesTemplate(this.filteredRecipes);
+                    recipesTemplate.totalRecettes()
+                }else{
+                    message.textContent="Aucune recette, vous pouvez chercher \"tarte aux pommes\" \"poisson \" etc."
+                    recipesTemplate =new RecipesTemplate(this.filteredRecipes);
+                    recipesTemplate.totalRecettes()
+                }
+                divRecette.appendChild(message)
                 return;
             } else {
                 console.log('affichage des recettes filtrés')
@@ -60,49 +66,6 @@ class App {
         recipesTemplate =new RecipesTemplate(this.allRecipes);
         recipesTemplate.render();
     }
-
-    openTags(){
-        const btn_list = document.querySelectorAll(".btn_list")
-        btn_list.forEach(btn => {
-            btn.addEventListener("click", (event) => {
-                this.eventOpenTags(event)
-            })
-        })
-    }
-
-    eventOpenTags(event){
-        let divParent = event.target.closest("div");
-        console.log("div", divParent)
-        let liste_filtre = divParent.querySelector(".liste_filtre")
-        let icon = divParent.querySelector(".icon")
-        let search_appareils = divParent.querySelector(".search_appareils")
-        let filtre_selectionnable = divParent.querySelector(".filtre_selectionnable")
-        let filtre_selectionne = divParent.querySelector(".filtre_selectionne")
-        console.log("lsite", liste_filtre)
-        console.log("search_appareils", search_appareils)
-        if(liste_filtre.classList.contains("filtre_open")){
-            icon.classList.add("rotate")
-            liste_filtre.classList.remove("filtre_open");
-            // liste_filtre.style.display = "none"
-            // setTimeout(function () {
-            //     liste_filtre.style.display = "none"
-            // }, 300);
-            setTimeout(function () {
-                search_appareils.style.display = "none"
-                filtre_selectionnable.style.display = "none"
-                filtre_selectionne.style.display = "none"
-            }, 200);
-        }else{
-            icon.classList.remove("rotate")
-            liste_filtre.classList.add("filtre_open");
-            search_appareils.style.display = "block"
-            filtre_selectionnable.style.display = "block"
-            filtre_selectionne.style.display = "block"
-            // liste_filtre.style.display = "block"
-        }
-    }
-
-
 }
 
 let myApp = new App();

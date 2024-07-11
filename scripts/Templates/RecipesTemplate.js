@@ -2,7 +2,7 @@ import { RecetteTemplate } from "./RecetteTemplate.js";
 import { RecetteModel } from "../Models/RecetteModel.js";
 
 export class RecipesTemplate {
-    // On initialise la propriété photographeModel
+    // On initialise la propriété
     constructor(recipes) {
         this.recipes = recipes;
     }
@@ -23,7 +23,11 @@ export class RecipesTemplate {
 
     totalRecettes(){
         let totalRecettes = document.querySelector(".total_recettes p")
-        totalRecettes.textContent = this.recipes.length + " reccettes"
+        if(this.recipes.length > 9){
+            totalRecettes.textContent = this.recipes.length + " recettes"
+        }else{
+            totalRecettes.textContent = this.recipes.length + " recette"
+        }
     }
 
 }
