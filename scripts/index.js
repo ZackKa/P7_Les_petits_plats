@@ -2,6 +2,7 @@ import { RecettesApi } from "./Api/RecettesApi.js"
 import { RecipesTemplate } from "./Templates/RecipesTemplate.js";
 import { Filters } from "./Utils/Filters.js";
 import { Search } from "./Utils/Search.js";
+import { Filter } from "./Utils/Filter.js"; // ajouter avant c'etait dans fitlers
 
 class App {
     //Le constructeur initialise la classe en créant une instance de RecettesApi
@@ -9,8 +10,9 @@ class App {
         this.recettesApi=new RecettesApi("data/reciepes.json");
 
         this.allRecipes=null;
-        this.filteredRecipes=null;
-        this.haveFilter=false;
+        this.filteredRecipes=[];
+        this.haveMainFilter=false;
+        this.haveSecondaryFilter=false;
         
 
         this.datasSelectedAppareils = [];
@@ -22,11 +24,20 @@ class App {
         await this.getAllRecipes();
         this.displayRecipes()
 
-        let search=new Search(this);
-        search.init();
+        this.search=new Search(this);
+        this.search.init();
         
-        let filters = new Filters(this);
-        filters.init();
+        this.filters = new Filters(this);
+        this.filters.init();
+
+    }
+
+    applyFilter() {
+        
+        this.search.applyMainFilter();
+        this.filters.updateFilter(this.filteredRecipes)
+        this.filters.applySecondaryFilter();
+        this.displayRecipes(this.search.searchText);
     }
 
     async getAllRecipes() {
@@ -36,9 +47,11 @@ class App {
     displayRecipes(searchText){
         let recipesTemplate;
         // console.log('displayRecipes')
-        // console.log("have filtre",this.haveFilter)
-        if(this.haveFilter==true) {
-            if (this.filteredRecipes.length <= 0) {
+        console.log("lenght filtre",this.filteredRecipes.length == 0)
+        if(this.haveMainFilter==true || this.haveSecondaryFilter==true) {
+            //MAJ des combos
+             
+            if (this.filteredRecipes.length == 0) {
                 let divRecette = document.getElementById("recettes")
                 divRecette.textContent=""
                 let message = document.createElement("p")
@@ -56,13 +69,14 @@ class App {
                 divRecette.appendChild(message)
                 return;
             } else {
+                console.log('recette filtrer index', this.filteredRecipes)
                 console.log('affichage des recettes filtrés')
                 recipesTemplate =new RecipesTemplate(this.filteredRecipes);
                 recipesTemplate.render();
                 return;
             }
         }
-
+        console.log("pas de filtre")
         recipesTemplate =new RecipesTemplate(this.allRecipes);
         recipesTemplate.render();
     }

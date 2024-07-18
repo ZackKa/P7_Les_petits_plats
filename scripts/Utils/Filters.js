@@ -11,24 +11,41 @@ export class Filters {
 
     init() {
         this.openTags()
-        this.showDatas()
+        this.getDatas()
+
+                // instance ajouter avant c'etait dans fitlers
+        this.filterAppareils=new Filter(this.app,this, this.appareils, "appareil");
+        this.filterIngredients=new Filter(this.app,this, this.ingredients, "ingredient");
+        this.filterUstensils=new Filter(this.app,this, this.ustensiles, "ustensile");
+
         // this.getAppareils()
         // console.log("filterss", this.appareils);
-        new Filter(this.app, this.appareils, "appareil");
+        // new Filter(this.app, this.app.appareils, "appareil");
         // this.getIngredients()
         // console.log("ingredients filters", this.ingredients)
-        new Filter(this.app, this.ingredients, "ingredient");
+        // new Filter(this.app, this.app.ingredients, "ingredient");
         // this.getUstensiles()
         // console.log("getUstensiles filters", this.ustensiles)
-        new Filter(this.app, this.ustensiles, "ustensile");
+        // new Filter(this.app, this.app.ustensiles, "ustensile");
 
         this.searchSecondary()
     }
 
-    showDatas(){
+    getDatas(){
         this.getAppareils()
         this.getIngredients()
         this.getUstensiles()
+    }
+
+    updateFilter(datas) {
+        this.appareils=[];
+        this.ingredients=[];
+        this.ustensiles=[];
+        this.getDatas();
+
+        this.filterAppareils.updateData(this.appareils)
+        this.filterIngredients.updateData(this.ingredients)
+        this.filterUstensils.updateData(this.ustensiles)
     }
 
     openTags() {
@@ -132,9 +149,8 @@ export class Filters {
 
     getAppareils() {
         // console.log("data filtre", this.app.allRecipes)
-        let datas = this.app.haveFilter ? this.app.filteredRecipes : this.app.allRecipes;
-        console.log("FILTERS DATA",this.app.filteredRecipes)
-
+        let datas = this.app.haveMainFilter ? this.app.filteredRecipes : this.app.allRecipes;
+        console.log("Recette pour la récupérations des appareils",datas)
         datas.forEach((data) => {
             this.appareils.push(data.appliance.toLowerCase()) // On ajoute la data en miniscule dans le tableau
             this.appareils = new Set(this.appareils) //On évite les doublons
@@ -145,8 +161,7 @@ export class Filters {
     }
 
     getIngredients() {
-        let datas = this.app.haveFilter ? this.app.filteredRecipes : this.app.allRecipes;
-
+        let datas = this.app.haveMainFilter ? this.app.filteredRecipes : this.app.allRecipes;
         datas.forEach((data) => {
             // this.ingredients.push(data.ingredients)
             data.ingredients.forEach((data) => {
@@ -159,8 +174,7 @@ export class Filters {
     }
 
     getUstensiles() {
-        let datas = this.app.haveFilter ? this.app.filteredRecipes : this.app.allRecipes;
-
+        let datas = this.app.haveMainFilter ? this.app.filteredRecipes : this.app.allRecipes;
         datas.forEach((data) => {
             // console.log("data ustensiles", data.ustensils)
             // this.ustensiles.push(data.ustensils)
@@ -171,5 +185,61 @@ export class Filters {
             })
         })
         // console.log("ustensiles filt", this.ustensiles)
+    }
+
+    // Fonctionne mais saladier retourne appareil et ustensiles
+    applySecondaryFilter() {
+        // On combine les tableau d'appareils, ingredients et ustensiles séléectionnés dans datasSelected grâce à l'opérateur spread "..."
+        // new Set() permet d'éliminer les doublons
+       // this.datasSelected = [...new Set([...this.app.datasSelectedAppareils, ...this.app.datasSelectedUstensiles, ...this.app.datasSelectedIngredients])];
+        let datas=[];
+        if (this.app.haveMainFilter) 
+            datas= this.app.filteredRecipes ;
+        else
+            datas= this.app.allRecipes   ;
+
+
+        if(this.app.datasSelectedAppareils.length==0 && this.app.datasSelectedUstensiles.length==0 && this.app.datasSelectedIngredients.length==0) {
+            console.log("PAS de FILTRE")
+            // this.getAppareils();
+            // this.filterAppareils.updateData(this.appareils) ;
+            // this.app.filteredRecipes=[]
+            this.app.haveSecondaryFilter=false;
+            
+            return;
+        }
+        // else{
+        //     this.app.haveSecondaryFilter=true;
+        // }
+        this.app.haveSecondaryFilter=true;
+
+
+        this.app.filteredRecipes = datas.filter(recipe => {
+            // On vérifie si un appareil, un ingredient ou un ustensile correspond aux éléments de datasSelected
+            return this.app.datasSelectedAppareils.every(selectedItem => {
+                return recipe.appliance.toLowerCase().includes(selectedItem) ;
+            });
+        });
+        this.app.filteredRecipes =  this.app.filteredRecipes.filter(recipe => {
+            // On vérifie si un appareil, un ingredient ou un ustensile correspond aux éléments de datasSelected
+            return this.app.datasSelectedUstensiles.every(selectedItem => {
+                return recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(selectedItem));
+            });
+        });
+        this.app.filteredRecipes =  this.app.filteredRecipes.filter(recipe => {
+            // On vérifie si un appareil, un ingredient ou un ustensile correspond aux éléments de datasSelected
+            return this.app.datasSelectedIngredients.every(selectedItem => {
+                return recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(selectedItem));
+            });
+        });
+        //  Si une recette correspond à tous les éléments de datasSelected, elle est ajoutée à this.app.filteredRecipes.
+        console.log("applySecondaryFilter", this.app.filteredRecipes);
+        console.log("main filter",this.app.haveMainFilter)            
+        console.log("second filter",this.app.haveSecondaryFilter)
+
+
+        // this.getAppareils();
+        // this.filterAppareils.updateData(this.appareils) ;
+
     }
 }
