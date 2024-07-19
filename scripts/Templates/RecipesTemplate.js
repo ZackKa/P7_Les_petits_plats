@@ -8,24 +8,24 @@ export class RecipesTemplate {
     }
 
     render() {
-        let html=document.getElementById("recettes");
-        html.textContent='';
+        let html = document.getElementById("recettes");
+        html.textContent = '';
 
         // On fait une boucle des recettes
         this.recipes.forEach((data) => {
-            let recetteModel=new RecetteModel(data);
-            let recetteTemplate=new RecetteTemplate(recetteModel);
+            let recetteModel = new RecetteModel(data);
+            let recetteTemplate = new RecetteTemplate(recetteModel);
             html.appendChild(recetteTemplate.render());
         })
 
         this.totalRecettes()
     }
 
-    totalRecettes(){
+    totalRecettes() {
         let totalRecettes = document.querySelector(".total_recettes p")
-        if(this.recipes.length > 9){
+        if (this.recipes.length > 9) {
             totalRecettes.textContent = this.recipes.length + " recettes"
-        }else{
+        } else {
             totalRecettes.textContent = this.recipes.length + " recette"
         }
     }

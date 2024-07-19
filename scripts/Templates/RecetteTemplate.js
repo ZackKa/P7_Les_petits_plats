@@ -22,7 +22,7 @@ export class RecetteTemplate {
         img.setAttribute("src", this.recetteModel.picture)
         img.setAttribute("alt", this.recetteModel.name)
         divImg.appendChild(img);
-        
+
         const divContent = document.createElement('div')
         divContent.classList.add("div_content")
         article.appendChild(divContent)
@@ -68,9 +68,9 @@ export class RecetteTemplate {
 
             const pDetail = document.createElement('p')
             pDetail.classList.add("ingredients_quantity")
-            if(data.unit){
+            if (data.unit) {
                 pDetail.textContent = data.quantity + " " + data.unit
-            }else{
+            } else {
                 pDetail.textContent = data.quantity
             }
             detailIngredientsContent.appendChild(pDetail)
