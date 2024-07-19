@@ -27,22 +27,34 @@ export class Search {
     }
 
     applyMainFilter() {
-        // Si les 3 tableaux sont vides alors on filtre par nom, appareil, ingrédient et ustensile dans toutes les recettes
         if (this.app.datasSelectedAppareils.length === 0 && this.app.datasSelectedUstensiles.length === 0 && this.app.datasSelectedIngredients.length === 0) {
-            this.app.filteredRecipes = this.app.allRecipes.filter(recipe =>
-                recipe.name.toLowerCase().includes(this.searchText) ||
-                recipe.appliance.toLowerCase().includes(this.searchText) ||
-                recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(this.searchText)) ||
-                recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(this.searchText))
-            );
-            // Sinon, on filtre par rapport aux recettes que contient this.app.filteredRecipes 
+            let filteredRecipes = [];
+            for (let i = 0; i < this.app.allRecipes.length; i++) {
+                let recipe = this.app.allRecipes[i];
+                if (
+                    recipe.name.toLowerCase().includes(this.searchText) ||
+                    recipe.appliance.toLowerCase().includes(this.searchText) ||
+                    recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(this.searchText)) ||
+                    recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(this.searchText))
+                ) {
+                    filteredRecipes.push(recipe);
+                }
+            }
+            this.app.filteredRecipes = filteredRecipes;
         } else {
-            this.app.filteredRecipes = this.app.filteredRecipes.filter(recipe =>
-                recipe.name.toLowerCase().includes(this.searchText) ||
-                recipe.appliance.toLowerCase().includes(this.searchText) ||
-                recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(this.searchText)) ||
-                recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(this.searchText))
-            )
+            let filteredRecipes = [];
+            for (let i = 0; i < this.app.filteredRecipes.length; i++) {
+                let recipe = this.app.filteredRecipes[i];
+                if (
+                    recipe.name.toLowerCase().includes(this.searchText) ||
+                    recipe.appliance.toLowerCase().includes(this.searchText) ||
+                    recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(this.searchText)) ||
+                    recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(this.searchText))
+                ) {
+                    filteredRecipes.push(recipe);
+                }
+            }
+            this.app.filteredRecipes = filteredRecipes;
         }
     }
 }
