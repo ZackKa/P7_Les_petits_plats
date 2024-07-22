@@ -16,7 +16,7 @@ export class Search {
         //  vérifie le texte entré et le transforme en minuscules sans les espaces inutiles.
         let searchText = e.target.value.trim().toLowerCase();
 
-        if (searchText.length <= 3) {
+        if (searchText.length <= 2) {
             this.app.haveMainFilter = false; // Indique qu'il n'y a pas de filtre
             this.app.applyFilter(); // Appelle applyFilter pour afficher les recettes
             return false; // Sert à indiquer qu'aucun texte valide n'a été saisi et aucun filtre ne doit être appliqué

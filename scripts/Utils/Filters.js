@@ -90,7 +90,7 @@ export class Filters {
         const listeSelectionnable = divFiltre.querySelector(".filtre_selectionnable");
         const selectableItems = listeSelectionnable.querySelectorAll("li");
 
-        if (searchText.length > 3) {
+        if (searchText.length > 2) {
             selectableItems.forEach(selectableItem => {
                 if (!this.filteredArray.includes(selectableItem.textContent.toLowerCase())) {
                     selectableItem.style.display = "none";
